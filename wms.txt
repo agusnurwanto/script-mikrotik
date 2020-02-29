@@ -9,14 +9,14 @@
 	:local ip [/ip address get [/ip address find interface="ether1"] address];
 	:local mac [/interface get [find default-name=ether1] mac-address];
 	:local ip [put [:pick $ip 0 [:find $ip "/"]]];
-	/tool fetch http-method=post http-data="username=5pwkm@violet&password=DMR" url=("https://welcome2.wifi.id/wms/auth/authnew/autologin/quarantine.php\?ipc=$ip&gw_id=WAG-D5-KBL&mac=78:44:76:f3:62:c8&redirect=&wlan=MPTMPT00035/TLK-WI31934745-0001:WICO%20SHALIH%20IBRAHIM") keep-result=no;
+	/tool fetch http-method=post http-data="username=5pwkm@violet&password=DMR" url=("https://welcome2.wifi.id/wms/auth/authnew/autologin/quarantine.php\?ipc=$ip&gw_id=WAG-D5-KBL&mac=78:44:76:f3:xx:xx&redirect=&wlan=MPTMPT00035/TLK-WI31934745-0001:WICO%20ID") keep-result=no;
 } else {
 	log warning ("@WMS is UP")
 }
 
 
 // format url login 
-// https://welcome2.wifi.id/wms/?gw_id=WAG-D5-KBL&client_mac=78:44:76:f3:62:c8&wlan=MPTMPT00035/TLK-WI31934745-0001:WICO%20SHALIH%20IBRAHIM&sessionid=WAG-D5-02000114000000112900067695
+// https://welcome2.wifi.id/wms/?gw_id=WAG-D5-KBL&client_mac=78:44:76:f3:xx:xx&wlan=MPTMPT00035/TLK-WI31934745-0001:WICO%20ID&sessionid=WAG-D5-02000114000000112900067695
 
 
 // untuk mendapatkan IP WMS
@@ -41,3 +41,12 @@
 	cnt=f:read('*all'); f:close()" ];
 	;put $data
 }
+
+// script untuk push notifikasi ke user bot telegram dipasang di IP > Hotspot > User Profile > Script > on login
+
+/tool fetch url="https://api.telegram.org/bot10475xxxx:AAGfmLdMk8-xxxxxxxaccesstokenxxxxxxxxxxxx/sendMessage?chat_id=@chatid&text=Login DEFAULT $user $address" keep-result=no
+
+
+// script untuk push notifikasi ke user bot telegram dipasang di IP > Hotspot > User Profile > Script > on logout
+
+/tool fetch url="https://api.telegram.org/bot10475xxxx:AAGfmLdMk8-xxxxxxxaccesstokenxxxxxxxxxxxx/sendMessage?chat_id=@chatid&text=Out DEFAULT $user $address" keep-result=no
