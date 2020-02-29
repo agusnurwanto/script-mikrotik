@@ -1,0 +1,43 @@
+// Script auto login
+
+:if ([/ping address=8.8.8.8 count=2] = 0) do={
+	/ip dns cache flush
+	/ip dhcp-client release [find interface=ether1]
+	log warning ("NEW DHCP CLIENT")
+	delay 5
+	log warning ("@WMS is down --- trying to reconnect .....")
+	:local ip [/ip address get [/ip address find interface="ether1"] address];
+	:local mac [/interface get [find default-name=ether1] mac-address];
+	:local ip [put [:pick $ip 0 [:find $ip "/"]]];
+	/tool fetch http-method=post http-data="username=5pwkm@violet&password=DMR" url=("https://welcome2.wifi.id/wms/auth/authnew/autologin/quarantine.php\?ipc=$ip&gw_id=WAG-D5-KBL&mac=78:44:76:f3:62:c8&redirect=&wlan=MPTMPT00035/TLK-WI31934745-0001:WICO%20SHALIH%20IBRAHIM") keep-result=no;
+} else {
+	log warning ("@WMS is UP")
+}
+
+
+// format url login 
+// https://welcome2.wifi.id/wms/?gw_id=WAG-D5-KBL&client_mac=78:44:76:f3:62:c8&wlan=MPTMPT00035/TLK-WI31934745-0001:WICO%20SHALIH%20IBRAHIM&sessionid=WAG-D5-02000114000000112900067695
+
+
+// untuk mendapatkan IP WMS
+
+{
+:local result [/tool fetch url="http://192.168.1.1/status.htm" dst-path=getip; :delay 1; /file get result contents; /file remove result]; put $result;
+:if ($result->"status" = "finished") do={
+	:local data $result->"data";
+	:local ip [put [:pick $data 1 [:find $data "quarantine.php?ipc="]]];
+	:local ip [put [:pick $ip 0 [:find $ip "&gw_id="]]];
+	log warning ("@WMS IP is " . $ip)
+}
+}
+
+
+// tes untuk membaca file
+
+{
+	:global data ""
+	[/lua "local 
+	f=assert(io.open('/getip', 'r'));
+	cnt=f:read('*all'); f:close()" ];
+	;put $data
+}
