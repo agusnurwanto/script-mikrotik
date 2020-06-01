@@ -1,0 +1,16 @@
+#!/bin/sh
+HOST='serverxxx'
+USER='userxxx'
+PASSWD='passxxx'
+FILE='mikrotikagus.backup'
+
+ftp -n $HOST <<END_SCRIPT
+quote USER $USER
+quote PASS $PASSWD
+get $FILE
+quit
+END_SCRIPT
+
+php phpmailer/mail.php
+
+exit 0

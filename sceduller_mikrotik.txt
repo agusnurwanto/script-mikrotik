@@ -1,0 +1,9 @@
+/system backup save name=mikrotikagus.backup;
+
+delay 5;
+
+/tool fetch url="http://agus.mj/mikrotik/index.php" keep-result=no
+
+delay 300;
+
+/system reboot;

@@ -1,0 +1,19 @@
+<?php
+include "classes/class.phpmailer.php";
+$mail = new PHPMailer; 
+$mail->IsSMTP();
+$mail->SMTPSecure = 'ssl'; 
+$mail->Host = "serverxxx.com"; //host masing2 provider email
+$mail->SMTPDebug = 2;
+$mail->Port = 465;
+$mail->SMTPAuth = true;
+$mail->Username = "xxx@xxx.com"; //user email
+$mail->Password = "xxxxxx"; //password email 
+$mail->SetFrom("darixxx@xxx.com","PC Agus"); //set email pengirim
+$mail->Subject = "BACKUP MIKROTIK"; //subyek email
+$mail->AddAddress("tujuanxxx@xxx.com");  //tujuan email
+$mail->MsgHTML("semangat semoga berkah");
+$mail->AddAttachment("mikrotikagus.backup");
+if($mail->Send()) echo "Message has been sent";
+else echo "Failed to sending message";
+?>
